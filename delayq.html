@@ -1,102 +1,97 @@
 <!DOCTYPE html>
-<html>
-
-<head>
-    <title></title>
+<html> <head>
+    <title>Delayq Page</title>
     <style>
-        .flex-container {
-            display: flex;
-            flex-direction: row;
-            background-color: orange;
-        }
+    .flex-container {
+      display: flex;  flex-direction:row;
+      background-color: rgb(0, 140, 255);
+  }
 
-        .flex-container>div {
-            /*div children of the flex container*/
-            background-color: #515612;
-            margin: 10px;
-            padding: 20px;
-            font-size: 30px;
-        }
+.flex-container > div {  
+    /*div children of the flex container*/
+  background-color: #f1f1f1; 
+  margin: 10px;  padding: 20px;  font-size: 30px;
+}
 
-        /* Responsive layout */
-        @media (max-width: 600px) {
-            .flex-container {
-                flex-direction: column;
-                background-color: green;
-            }
-        }
-    </style>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+/* Responsive layout */
+@media (max-width: 600px) { 
+	 .flex-container{
+		 flex-direction:column;
+		 background-color: rgb(128, 0, 79);
+	  }
+	}
+</style>
 </head>
 
 
 
 <body>
-    <div class="container">
-        <h3>Soujanya Kirni builds a
-            delaying queue</h3>
-        <div class="clde">
-            <form>
-                <div class="form-floating mb-3 mt-3">
-                    <input type="text" class="form-control" id="inputval" placeholder="Enter Input" name="Input">
-                    <label for="email">Input:</label>
-                </div><br><br>
+    <h1>Soujanya Kirni builds a delaying queue</h1>
+    <div class="flex-container" id="target">
+      <div class="delayQ">row item 1</div>   
+      <div class="delayQ">row item 2</div>  
+      <div class="delayQ">row item 3</div>  
+    </div>
 
-            </form>
-        </div>
-        <div class="flex-container bg-secondary" id="target">
-            <div class="delayQ">row item 1</div>
-            <div class="delayQ">row item 2</div>
-            <div class="delayQ">row item 3</div>
-        </div>
-
-        <p> Press the button to create an new element of type div and then add it to the container.
-        </p>
-        <button class="btn btn-dark" onclick="makeNewDiv()">Add value</button>
-        <button class="btn btn-primary" onclick="get()">Get</button>
-        <button class="btn btn-info" onclick="delay()">Delay</button>
+<p> Press the button to create an new element of type div and then add it to the container</p>
+    <div class="form-group">
+        <input type="text" class="form-control" id="inputElement">
+    </div><br>
+    <button onclick="makeNewDiv()" class="btn btn-primary">Add Value</button>
+    <button onclick="get()" class="btn btn-info">Get</button>
+    <button onclick="delay()" class="btn btn-light">Delay</button>
+    <button onclick="promote()" class="btn btn-secondary">Promote</button>
 
 
 </body>
-</div>
 <script>
-    function makeNewDiv() {
-        /* make the div and its text */
-        var textval = document.getElementById('inputval').value;
-        let element = document.createElement("div");
-        element.innerHTML = textval;
-        element.style.color = "Green";
-        element.className = "delayQ";
-        /* add it to the container */
-        let container = document.getElementById('target');
-        container.appendChild(element);
+function makeNewDiv(){
+    
+    let element = document.createElement("div")
+    element.innerHTML = document.getElementById("inputElement").value
+    element.style.color = "orange"
+    element.className = "delayQ"
 
-    }
-    function get() {
-        /* make the div and its text */
-        var queueItems = document.getElementsByClassName("delayQ");
-        console.log('queueItems', queueItems.length);
-        if (queueItems.length > 0) {
-            queueItems[0].remove();
-        }
-        console.log('queueItems', queueItems.length);
+    
+    let container = document.getElementById('target')
+    container.appendChild(element)
+    
+}
+function get(){
+    var queueItems = []
+    queueItems = document.getElementsByClassName("delayQ")
+    length = queueItems.length
 
+    if(length>0){
+        queueItems[0].remove()
     }
-    function delay() {
-        /* make the div and its text */
-        var queueItems = document.getElementsByClassName("delayQ");
-        var removedId;
-        if (queueItems.length != 0 || queueItems.length != 1) {
-            removedId = queueItems[0];
-            queueItems[0].remove();
-            let container = document.getElementById('target');
-            container.appendChild(removedId);
-        }
+}
+function delay(){
+    var queueItems = []
+    queueItems = document.getElementsByClassName("delayQ")
+    length = queueItems.length
 
+    if(length>1){
+        var removedItem = queueItems[0]
+        document.getElementById('target').insertBefore(removedItem,queueItems[length])
     }
+}
+function promote(){
+        var queueItems = document.getElementsByClassName("delayQ")
+        var length = queueItems.length
+        var random = Math.floor(Math.random()*(length))
+        console.log(random)
+
+        let element = document.createElement("div")
+		element.innerHTML = queueItems[random].textContent
+		element.style.color = "orange"
+        element.className = "delayQ"
+
+		
+		let container = document.getElementById('target')
+         queueItems[random].remove()
+        container.insertBefore(element,queueItems[0])
+    }
+
 </script>
-
 </html>
